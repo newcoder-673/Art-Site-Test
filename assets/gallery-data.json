@@ -1,0 +1,218 @@
+[
+  {
+    "file": "alaska-landscape-painting-turnagain-light.jpg",
+    "title": "Turnagain Light",
+    "medium": "Oil on Canvas",
+    "size": "9x12\"",
+    "price": "$650",
+    "category": "Mountains"
+  },
+  {
+    "file": "alaska-landscape-painting-cook-inlet-morning.jpg",
+    "title": "Cook Inlet Morning",
+    "medium": "Oil on Linen Panel",
+    "size": "11x14\"",
+    "price": "$780",
+    "category": "Coastal"
+  },
+  {
+    "file": "alaska-landscape-painting-chugach-ridge.jpg",
+    "title": "Chugach Ridge",
+    "medium": "Watercolor",
+    "size": "12x16\"",
+    "price": "$950",
+    "category": "Winter"
+  },
+  {
+    "file": "alaska-landscape-painting-kenai-overlook.jpg",
+    "title": "Kenai Overlook",
+    "medium": "Oil on Panel",
+    "size": "16x20\"",
+    "price": "$1,100",
+    "category": "Woodland"
+  },
+  {
+    "file": "alaska-landscape-painting-denali-haze.jpg",
+    "title": "Denali Haze",
+    "medium": "Oil on Canvas",
+    "size": "8x10\"",
+    "price": "$1,250",
+    "category": "Mountains"
+  },
+  {
+    "file": "alaska-landscape-painting-matanuska-frost.jpg",
+    "title": "Matanuska Frost",
+    "medium": "Oil on Linen Panel",
+    "size": "18x24\"",
+    "price": "$1,450",
+    "category": "Coastal"
+  },
+  {
+    "file": "alaska-landscape-painting-portage-stillness.jpg",
+    "title": "Portage Stillness",
+    "medium": "Watercolor",
+    "size": "14x18\"",
+    "price": "$1,650",
+    "category": "Winter"
+  },
+  {
+    "file": "alaska-landscape-painting-resurrection-bay.jpg",
+    "title": "Resurrection Bay",
+    "medium": "Oil on Panel",
+    "size": "9x12\"",
+    "price": "$1,800",
+    "category": "Woodland"
+  },
+  {
+    "file": "alaska-landscape-painting-eklutna-gold.jpg",
+    "title": "Eklutna Gold",
+    "medium": "Oil on Canvas",
+    "size": "11x14\"",
+    "price": "$2,100",
+    "category": "Mountains"
+  },
+  {
+    "file": "alaska-landscape-painting-homer-spit-dusk.jpg",
+    "title": "Homer Spit Dusk",
+    "medium": "Oil on Linen Panel",
+    "size": "12x16\"",
+    "price": "$2,400",
+    "category": "Coastal"
+  },
+  {
+    "file": "alaska-landscape-painting-talkeetna-birches.jpg",
+    "title": "Talkeetna Birches",
+    "medium": "Watercolor",
+    "size": "16x20\"",
+    "price": "$650",
+    "category": "Winter"
+  },
+  {
+    "file": "alaska-landscape-painting-turnagain-arm-tide.jpg",
+    "title": "Turnagain Arm Tide",
+    "medium": "Watercolor",
+    "size": "9x12\"",
+    "price": "$1,250",
+    "category": "Winter"
+  },
+  {
+    "file": "alaska-landscape-painting-palmer-hayflats.jpg",
+    "title": "Palmer Hayflats",
+    "medium": "Oil on Panel",
+    "size": "18x24\"",
+    "price": "$2,400",
+    "category": "Woodland"
+  },
+  {
+    "file": "alaska-landscape-painting-eagle-river-valley.jpg",
+    "title": "Eagle River Valley",
+    "medium": "Oil on Linen Panel",
+    "size": "9x12\"",
+    "price": "$780",
+    "category": "Coastal"
+  },
+  {
+    "file": "alaska-landscape-painting-kachemak-bay.jpg",
+    "title": "Kachemak Bay",
+    "medium": "Watercolor",
+    "size": "11x14\"",
+    "price": "$950",
+    "category": "Winter"
+  },
+  {
+    "file": "alaska-landscape-painting-winter-birch-grove.jpg",
+    "title": "Winter Birch Grove",
+    "medium": "Oil on Panel",
+    "size": "12x16\"",
+    "price": "$1,100",
+    "category": "Woodland"
+  },
+  {
+    "file": "alaska-landscape-painting-alpenglow-chugach.jpg",
+    "title": "Alpenglow, Chugach",
+    "medium": "Oil on Canvas",
+    "size": "16x20\"",
+    "price": "$1,250",
+    "category": "Mountains"
+  },
+  {
+    "file": "alaska-landscape-painting-tidal-flats-at-low-water.jpg",
+    "title": "Tidal Flats at Low Water",
+    "medium": "Oil on Linen Panel",
+    "size": "8x10\"",
+    "price": "$1,450",
+    "category": "Coastal"
+  },
+  {
+    "file": "alaska-landscape-painting-spruce-snow.jpg",
+    "title": "Spruce & Snow",
+    "medium": "Watercolor",
+    "size": "18x24\"",
+    "price": "$1,650",
+    "category": "Winter"
+  },
+  {
+    "file": "alaska-landscape-painting-fireweed-slope.jpg",
+    "title": "Fireweed Slope",
+    "medium": "Oil on Panel",
+    "size": "14x18\"",
+    "price": "$1,800",
+    "category": "Woodland"
+  },
+  {
+    "file": "alaska-landscape-painting-susitna-overlook.jpg",
+    "title": "Susitna Overlook",
+    "medium": "Oil on Canvas",
+    "size": "9x12\"",
+    "price": "$2,100",
+    "category": "Mountains"
+  },
+  {
+    "file": "alaska-landscape-painting-anchor-river-bend.jpg",
+    "title": "Anchor River Bend",
+    "medium": "Oil on Linen Panel",
+    "size": "11x14\"",
+    "price": "$2,400",
+    "category": "Coastal"
+  },
+  {
+    "file": "alaska-landscape-painting-diamond-ridge-light.jpg",
+    "title": "Diamond Ridge Light",
+    "medium": "Watercolor",
+    "size": "12x16\"",
+    "price": "$650",
+    "category": "Winter"
+  },
+  {
+    "file": "alaska-landscape-painting-northern-timberline.jpg",
+    "title": "Northern Timberline",
+    "medium": "Oil on Panel",
+    "size": "16x20\"",
+    "price": "$780",
+    "category": "Woodland"
+  },
+  {
+    "file": "alaska-landscape-painting-copper-river-delta.jpg",
+    "title": "Copper River Delta",
+    "medium": "Oil on Canvas",
+    "size": "8x10\"",
+    "price": "$950",
+    "category": "Mountains"
+  },
+  {
+    "file": "alaska-landscape-painting-skilak-lake-shore.jpg",
+    "title": "Skilak Lake Shore",
+    "medium": "Oil on Linen Panel",
+    "size": "18x24\"",
+    "price": "$1,100",
+    "category": "Coastal"
+  },
+  {
+    "file": "alaska-landscape-painting-lowell-point.jpg",
+    "title": "Lowell Point",
+    "medium": "Watercolor",
+    "size": "14x18\"",
+    "price": "$1,250",
+    "category": "Winter"
+  }
+]

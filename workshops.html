@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Workshops — Cade Bennett Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=IBM+Plex+Mono:wght@500&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12100D; --paper:#F7F4EC; --paper-dim:#EFEAE0;
+    --gold:#A9842E; --gold-light:#C7A54B; --rust:#B23A20; --stone:#7A7266;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html{background:var(--paper);}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  .label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;font-weight:500;}
+  .note{background:#12100D;color:var(--gold-light);padding:16px 6%;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.05em;line-height:1.6;}
+  .note b{color:var(--paper);}
+  .divider{background:var(--ink); color:var(--paper); padding:24px 6%; position:sticky; top:0; z-index:90;}
+  .divider .label{color:var(--gold-light);}
+  .divider h2{font-family:'Fraunces',serif; font-size:20px; color:var(--paper); margin:6px 0 0; font-weight:600;}
+  .divider p{color:var(--stone); font-size:13px; margin:8px 0 0; max-width:640px; line-height:1.6;}
+
+  /* ---------- HAZY HERO (shared) ---------- */
+  .hero-simple{position:relative; height:135vh; min-height:900px; overflow:hidden;}
+  .hero-simple img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 42%;
+    opacity:0; animation: heroImgFade 1.4s ease forwards;
+  }
+  .hero-simple-scrim{position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.06) 100%); pointer-events:none;}
+  @keyframes heroImgFade{ from{opacity:0;} to{opacity:1;} }
+  .hero-simple-text{position:absolute; top:15vh; left:0; right:0; text-align:center; z-index:5;}
+  .hero-simple-text .h-top, .hero-simple-text .h-rule, .hero-simple-text .h-bottom{
+    opacity:0; transform:translateY(16px);
+    animation: heroTextFade 1s ease forwards;
+  }
+  .hero-simple-text .h-rule{ animation-delay:0.35s; }
+  .hero-simple-text .h-bottom{ animation-delay:0.55s; }
+  .hero-simple-text .h-top{ animation-delay:0.15s; }
+  @keyframes heroTextFade{ to{opacity:1; transform:translateY(0);} }
+  .h-top{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(34px,5.6vw,68px); line-height:1.15; color:#FFFFFF; letter-spacing:0.22em; text-transform:uppercase; text-shadow:0 2px 16px rgba(0,0,0,0.3);}
+  .h-rule{width:1px;height:34px;background:rgba(18,16,13,0.7);margin:18px auto;}
+  .h-bottom{font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(28px,4.6vw,54px); line-height:1.15; color:#12100D; letter-spacing:0.18em; text-transform:uppercase;}
+
+  /* =========================================================
+     LAYOUT A — EDITORIAL SPREAD (one large image + wide margins)
+     ========================================================= */
+  .a-section{padding:16vh 10% 16vh; text-align:center;}
+  .a-section .label{color:var(--rust);}
+  .a-section h2{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(24px,3.2vw,36px); text-transform:uppercase; letter-spacing:0.06em; margin:16px 0 60px;}
+  .a-figure{max-width:900px; margin:0 auto;}
+  .a-figure img{width:100%;}
+  .a-caption{margin-top:22px; display:flex; justify-content:space-between; max-width:900px; margin-left:auto; margin-right:auto; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:var(--stone);}
+  .a-caption .t{font-family:'Fraunces',serif; font-size:16px; color:var(--ink); letter-spacing:0; text-transform:none;}
+  .a-list{max-width:640px; margin:80px auto 0; text-align:left;}
+  .a-item{display:flex; justify-content:space-between; align-items:baseline; padding:22px 0; border-bottom:1px solid rgba(18,16,13,0.1);}
+  .a-item h3{font-family:'Fraunces',serif; font-weight:600; font-size:19px; margin:0;}
+  .a-item span{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:var(--stone); text-transform:uppercase;}
+
+  /* =========================================================
+     LAYOUT B — QUIET GRID (wide gutters, hairline borders, muted images)
+     ========================================================= */
+  .b-section{padding:14vh 8%;}
+  .b-head{text-align:center; margin-bottom:80px;}
+  .b-head .label{color:var(--rust);}
+  .b-head h2{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(24px,3.2vw,36px); text-transform:uppercase; letter-spacing:0.06em; margin:16px 0 0;}
+  .b-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:60px 40px;}
+  @media (max-width:900px){ .b-grid{grid-template-columns:repeat(2,1fr); gap:44px 24px;} }
+  @media (max-width:560px){ .b-grid{grid-template-columns:1fr; gap:40px;} }
+  .b-card{text-align:center;}
+  .b-card .frame{border:1px solid rgba(18,16,13,0.14); padding:14px; margin-bottom:18px;}
+  .b-card img{}
+  .b-card h3{font-family:'Fraunces',serif; font-weight:600; font-size:17px; margin:0 0 4px;}
+  .b-card .m{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--stone); letter-spacing:0.04em;}
+
+  .b-workshops{max-width:760px; margin:100px auto 0; text-align:center;}
+  .b-ws-row{display:flex; justify-content:space-between; align-items:center; padding:26px 0; border-bottom:1px solid rgba(18,16,13,0.1); text-align:left;}
+  .b-ws-row h3{font-family:'Fraunces',serif; font-weight:600; font-size:18px; margin:0 0 4px;}
+  .b-ws-row .meta{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--stone); text-transform:uppercase; letter-spacing:0.04em;}
+  .b-ws-row .tba{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--rust); text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap;}
+
+
+
+  /* ---------- ARTIST STATEMENT (quiet content) ---------- */
+  .statement-section{padding:16vh 10% 14vh; text-align:center;}
+  .statement-section .label{color:var(--rust);}
+  .statement-section p{font-family:'Fraunces',serif; font-weight:400; font-size:clamp(20px,2.4vw,26px); line-height:1.65; color:#2b2820; max-width:680px; margin:26px auto 0; font-style:italic;}
+
+  /* ---------- SIGNUP (redesigned) ---------- */
+  .signup-section{background:var(--ink); color:var(--paper); text-align:center; padding:16vh 8%; position:relative; overflow:hidden;}
+  .signup-section::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(ellipse 70% 60% at 50% 0%, rgba(169,132,46,0.14), transparent 70%);
+    pointer-events:none;
+  }
+  .signup-inner{position:relative; z-index:2; max-width:560px; margin:0 auto;}
+  .signup-section .label{color:var(--gold-light);}
+  .signup-section h2{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(30px,4vw,46px); margin:18px 0 14px; color:var(--paper); line-height:1.15;}
+  .signup-section p{color:var(--stone); font-size:15px; margin:0 auto 40px; max-width:400px; line-height:1.6;}
+  .signup-form{display:flex; gap:10px; max-width:440px; margin:0 auto; background:rgba(246,241,231,0.06); border:1px solid rgba(246,241,231,0.18); border-radius:40px; padding:6px 6px 6px 22px;}
+  .signup-form input{flex:1; background:transparent; border:none; outline:none; color:var(--paper); font-family:'Inter',sans-serif; font-size:14px;}
+  .signup-form input::placeholder{color:var(--stone);}
+  .signup-form button{background:var(--rust); border:none; color:var(--paper); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; padding:13px 24px; border-radius:30px; white-space:nowrap; transition:background .2s ease;}
+  .signup-form button:hover{background:#9c3119;}
+
+  /* ---------- FOOTER ---------- */
+  .site-footer{background:var(--ink); color:var(--stone); padding:50px 8% 30px; border-top:1px solid rgba(246,241,231,0.12);}
+  .footer-top{display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px; padding-bottom:30px;}
+  .footer-brand{font-family:'Inter',sans-serif; font-weight:300; letter-spacing:0.14em; text-transform:uppercase; font-size:15px; color:var(--paper);}
+  .footer-cols{display:flex; gap:60px; flex-wrap:wrap;}
+  .footer-col .label{color:var(--gold-light); margin-bottom:12px; display:block;}
+  .footer-col a{display:block; text-decoration:none; color:var(--stone); font-size:13px; margin-bottom:8px;}
+  .footer-col a:hover{color:var(--paper);}
+  .footer-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding-top:20px; border-top:1px solid rgba(246,241,231,0.12); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.05em;}
+
+
+  /* ---------- ARTIST (simple contained layout) ---------- */
+  .artist-simple{padding:16vh 8% 14vh; display:grid; grid-template-columns:0.8fr 1.2fr; gap:70px; align-items:center; max-width:1100px; margin:0 auto;}
+  .artist-simple .photo{aspect-ratio:4/5; overflow:hidden; border-radius:2px; position:relative;}
+  .artist-simple .photo .slide{
+    position:absolute; inset:0; opacity:0; transition:opacity 1.4s ease;
+  }
+  .artist-simple .photo .slide.is-active{ opacity:1; }
+  .artist-simple .photo .slide img{width:100%; height:100%; object-fit:cover;}
+  .artist-simple .photo .slide[data-pos="painting"] img{ object-position:70% 45%; }
+  .artist-simple .photo .slide[data-pos="portrait"] img{ object-position:50% 15%; }
+  .artist-simple .photo .slide[data-pos="river"] img{ object-position:60% 40%; }
+  .artist-simple .photo .slide[data-pos="group"] img{ object-position:50% 40%; }
+  .artist-simple .photo .slide[data-pos="studio"] img{ object-position:60% 30%; }
+  .artist-simple .photo .slide[data-pos="lakeside"] img{ object-position:50% 45%; }
+  .artist-simple .photo .dots{
+    position:absolute; bottom:16px; left:0; right:0; z-index:3;
+    display:flex; justify-content:center; gap:7px;
+  }
+  .artist-simple .photo .dots span{
+    width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.45);
+    transition:background .3s ease, transform .3s ease;
+  }
+  .artist-simple .photo .dots span.is-active{ background:#fff; transform:scale(1.25); }
+  .artist-simple .copy{text-align:left;}
+  .artist-simple .copy .label{color:var(--rust); display:block; margin-bottom:16px;}
+  .artist-simple .copy h2{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(26px,3.2vw,38px); text-transform:uppercase; letter-spacing:0.04em; margin:0 0 20px; line-height:1.2;}
+  .artist-simple .copy p{font-family:'Fraunces',serif; font-style:italic; font-size:19px; line-height:1.7; color:#2b2820; margin:0; max-width:460px;}
+  @media (max-width:760px){ .artist-simple{grid-template-columns:1fr;} }
+
+
+  .ws-banner{position:relative; max-width:900px; margin:0 auto 70px;}
+  .ws-banner .main{border:1px solid rgba(18,16,13,0.14); padding:10px;}
+  .ws-banner .main img{width:100%; display:block; aspect-ratio:3/2; object-fit:cover;}
+  .ws-banner .inset{
+    position:absolute; bottom:-28px; right:-28px; width:26%; min-width:120px;
+    border:4px solid var(--paper); box-shadow:0 10px 24px rgba(0,0,0,0.14);
+  }
+  .ws-banner .inset img{width:100%; display:block; aspect-ratio:3/2; object-fit:cover;}
+  .ws-banner .inset-left{
+    position:absolute; bottom:-28px; left:-28px; width:22%; min-width:100px;
+    border:4px solid var(--paper); box-shadow:0 10px 24px rgba(0,0,0,0.14);
+  }
+  .ws-banner .inset-left img{width:100%; display:block; aspect-ratio:3/4; object-fit:cover;}
+  @media (max-width:640px){
+    .ws-banner .main{ margin-bottom:14px; }
+    .ws-banner .inset, .ws-banner .inset-left{
+      position:static; display:inline-block; width:48%; margin:0; box-shadow:none; border-width:2px; vertical-align:top;
+    }
+    .ws-banner .inset{ margin-left:4%; }
+  }
+
+
+  /* ---------- NAV (Variant 1: inline email capture) ---------- */
+  #site-nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:24px 5%; transition:padding .3s ease, background .3s ease;
+  }
+  #site-nav.scrolled{ background:rgba(18,16,13,0.92); backdrop-filter:blur(6px); padding:14px 5%; }
+  .nav-brand{display:flex; align-items:center;}
+  .nav-brand img{height:38px; width:38px; display:block; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.4));}
+  .nav-links{display:flex; gap:28px; list-style:none; margin:0; padding:0;}
+  .nav-links a{color:#fff; text-decoration:none; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.9;}
+  .nav-links a:hover{opacity:1; color:var(--gold-light);}
+  .nav-signup{display:flex; align-items:center; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.3); border-radius:30px; padding:5px 5px 5px 16px;}
+  .nav-signup input{background:transparent; border:none; outline:none; color:#fff; font-family:'Inter',sans-serif; font-size:12px; width:140px;}
+  .nav-signup input::placeholder{color:rgba(255,255,255,0.6);}
+  .nav-signup button{background:var(--rust); border:none; color:#fff; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; padding:9px 16px; border-radius:24px; cursor:pointer; white-space:nowrap;}
+  .nav-hamburger{
+    display:none; flex-direction:column; justify-content:center; gap:5px;
+    width:34px; height:34px; background:none; border:none; cursor:pointer; padding:0;
+  }
+  .nav-hamburger span{ display:block; width:100%; height:2px; background:#fff; transition:transform .25s ease, opacity .25s ease; }
+  .nav-hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2){ opacity:0; }
+  .nav-hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu{
+    position:fixed; top:0; left:0; right:0; z-index:99;
+    background:rgba(18,16,13,0.97); backdrop-filter:blur(8px);
+    max-height:0; overflow:hidden; transition:max-height .35s ease;
+    padding:0 8%;
+  }
+  .mobile-menu.open{ max-height:420px; padding:90px 8% 30px; }
+  .mobile-menu ul{ list-style:none; margin:0; padding:0; }
+  .mobile-menu li{ border-bottom:1px solid rgba(246,241,231,0.12); }
+  .mobile-menu a{
+    display:block; padding:16px 0; color:#fff; text-decoration:none;
+    font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.1em; text-transform:uppercase;
+  }
+  .mobile-menu-form{
+    display:flex; gap:8px; margin-top:22px;
+    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.25); border-radius:30px; padding:6px 6px 6px 18px;
+  }
+  .mobile-menu-form input{ flex:1; background:transparent; border:none; outline:none; color:#fff; font-family:'Inter',sans-serif; font-size:13px; }
+  .mobile-menu-form input::placeholder{ color:var(--stone); }
+  .mobile-menu-form button{ background:var(--rust); border:none; color:#fff; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; padding:10px 18px; border-radius:24px; cursor:pointer; }
+
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .nav-signup{display:none;}
+    .nav-hamburger{display:flex;}
+  }
+
+  .end-pad{height:0;}
+
+  .cart-open #site-nav{ opacity:0; pointer-events:none; }
+
+  .nav-cart{display:flex; align-items:center; gap:6px; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink); background:none; border:1px solid rgba(18,16,13,0.2); padding:8px 14px; border-radius:20px; margin-left:14px;}
+  .nav-cart:hover{border-color:var(--rust); color:var(--rust);}
+
+  /* ---------- HERO SLIDESHOW (workshops) ---------- */
+  .hero-slideshow{position:relative; height:135vh; min-height:900px; overflow:hidden;}
+  .hero-slideshow .slide{position:absolute; inset:0; opacity:0; transition:opacity 1.2s ease;}
+  .hero-slideshow .slide.is-active{opacity:1; z-index:1;}
+  .hero-slideshow .slide img{width:100%; height:100%; object-fit:cover; object-position:50% 40%; display:block;}
+
+  @media (max-width:640px){
+    .hero-slideshow{height:78vh; min-height:560px;}
+    .ws-hero-text{top:6vh;}
+  }
+
+  /* ---------- WORKSHOPS HERO TEXT OVERRIDE ---------- */
+  .ws-hero-text{position:absolute; top:7vh; left:0; right:0; text-align:center; z-index:5;}
+  .ws-hero-text .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold-light); margin-bottom:14px; text-shadow:0 2px 10px rgba(0,0,0,0.8);}
+  .ws-hero-text .h-top{font-weight:600; letter-spacing:0.1em; text-shadow:0 4px 20px rgba(0,0,0,0.7);}
+  .ws-hero-text .h-rule{width:60px; height:2px; background:var(--rust);}
+  .ws-hero-text .h-bottom{font-weight:500; letter-spacing:0.1em; text-shadow:0 4px 20px rgba(0,0,0,0.7);}
+
+  /* ---------- INTRO STATEMENT ---------- */
+  .ws-intro{padding:14vh 10% 10vh; text-align:center;}
+  .ws-intro .label{color:var(--rust);}
+  .ws-intro p{font-family:'Fraunces',serif; font-weight:400; font-style:italic; font-size:clamp(19px,2.2vw,24px); line-height:1.65; color:#2b2820; max-width:700px; margin:22px auto 0;}
+
+  /* ---------- COURSE BLOCKS ---------- */
+  .courses-section{padding:4vh 8% 14vh;}
+  .course-block{display:grid; grid-template-columns:1.1fr 1fr; gap:0; align-items:stretch; max-width:1300px; margin:0 auto 12vh; border:1px solid rgba(18,16,13,0.12);}
+  .course-block:last-child{margin-bottom:0;}
+  .course-block.reverse{grid-template-columns:1fr 1.1fr;}
+  .course-block.reverse .course-media{order:2;}
+  .course-block.reverse .course-copy{order:1;}
+  .course-media{position:relative; overflow:hidden; min-height:420px;}
+  .course-media img{width:100%; height:100%; object-fit:cover; display:block; position:absolute; inset:0;}
+  .course-badge{position:absolute; top:24px; left:24px; z-index:2; background:rgba(18,16,13,0.85); backdrop-filter:blur(4px); color:var(--paper); font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; padding:9px 16px; border-radius:20px;}
+  .course-copy{padding:60px 52px; display:flex; flex-direction:column; justify-content:center; background:var(--paper);}
+  .course-copy .level-row{display:flex; align-items:center; gap:8px; margin-bottom:14px;}
+  .course-copy .dot{width:7px; height:7px; border-radius:50%; background:var(--ink);}
+  .course-copy .dot.outdoor{background:var(--rust);}
+  .course-copy .level-meta{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--stone);}
+  .course-copy h2{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(26px,3vw,36px); text-transform:uppercase; letter-spacing:0.03em; margin:0 0 6px; line-height:1.2;}
+  .course-copy .tagline{font-family:'Fraunces',serif; font-style:italic; font-size:16px; color:var(--stone); margin:0 0 22px;}
+  .course-copy .overview{font-family:'Inter',sans-serif; font-size:14.5px; line-height:1.7; color:#2b2820; margin:0 0 26px;}
+  .course-cols{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:26px;}
+  .course-cols h4{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--rust); margin:0 0 10px;}
+  .course-cols ul{list-style:none; margin:0; padding:0;}
+  .course-cols li{font-family:'Inter',sans-serif; font-size:13px; line-height:1.9; color:#2b2820; padding-left:14px; position:relative;}
+  .course-cols li::before{content:"—"; position:absolute; left:0; color:var(--stone);}
+  .course-details{display:grid; grid-template-columns:repeat(2,1fr); gap:8px 20px; padding:20px 0; border-top:1px solid rgba(18,16,13,0.1); border-bottom:1px solid rgba(18,16,13,0.1); margin-bottom:26px;}
+  .course-details .d-item{display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.03em;}
+  .course-details .d-item span:first-child{color:var(--stone); text-transform:uppercase; letter-spacing:0.06em; font-size:10px;}
+  .course-details .d-item span:last-child{color:var(--ink);}
+  .course-cta{display:inline-flex; align-items:center; gap:10px;}
+  .course-cta a{background:var(--rust); color:#fff; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; padding:14px 28px; border-radius:30px; transition:background .2s ease; display:inline-block;}
+  .course-cta a:hover{background:#9c3119;}
+  .course-cta .tba{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--stone); text-transform:uppercase; letter-spacing:0.05em;}
+
+  @media (max-width:900px){
+    .course-block, .course-block.reverse{grid-template-columns:1fr;}
+    .course-block.reverse .course-media, .course-block.reverse .course-copy{order:0;}
+    .course-media{min-height:280px;}
+    .course-copy{padding:40px 28px;}
+    .course-cols{grid-template-columns:1fr;}
+    .course-details{grid-template-columns:1fr;}
+  }
+
+  /* ---------- ZOOM CTA STRIP ---------- */
+  .zoom-strip{padding:8vh 8%; text-align:center; background:var(--paper-dim);}
+  .zoom-strip .label{color:var(--rust);}
+  .zoom-strip h2{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(22px,2.8vw,30px); text-transform:uppercase; letter-spacing:0.05em; margin:14px 0 12px;}
+  .zoom-strip p{font-family:'Fraunces',serif; font-style:italic; font-size:15.5px; color:var(--stone); max-width:520px; margin:0 auto 26px;}
+  .zoom-strip a{background:var(--ink); color:var(--paper); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; padding:14px 30px; border-radius:30px; display:inline-block; transition:background .2s ease;}
+  .zoom-strip a:hover{background:#000;}
+
+</style>
+
+<body>
+
+<nav id="site-nav">
+  <div class="nav-brand"><a href="index.html"><img src="assets/monogram.png" alt="Cade Bennett monogram"></a></div>
+  <ul class="nav-links">
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="index.html#artist">Artist</a></li>
+    <li><a href="index.html#footer">Contact</a></li>
+  </ul>
+  <div class="nav-signup">
+    <input type="email" placeholder="Email for updates">
+    <button>Join</button>
+    <button class="nav-cart snipcart-checkout">Cart (<span class="snipcart-items-count">0</span>)</button>
+  </div>
+  <button class="nav-hamburger" id="hamburger-btn" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <ul>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="index.html#artist">Artist</a></li>
+    <li><a href="index.html#footer">Contact</a></li>
+  </ul>
+  <form class="mobile-menu-form">
+    <input type="email" placeholder="your@email.com">
+    <button type="submit">Join</button>
+  </form>
+  <button class="nav-cart snipcart-checkout" style="margin:20px auto 0; display:block;">View Cart (<span class="snipcart-items-count">0</span>)</button>
+</div>
+
+<div class="hero-slideshow" id="hero-slideshow">
+  <div class="slide is-active" data-index="0"><img src="assets/process-01.jpg" alt="Watercolor sketch beside an alpine lake"></div>
+  <div class="slide" data-index="1"><img src="assets/process-02.jpg" alt="Pochade box set up above a snowy valley"></div>
+  <div class="slide" data-index="2"><img src="assets/process-03.jpg" alt="Oil painting on location with mountains behind"></div>
+  <div class="slide" data-index="3"><img src="assets/process-04.jpg" alt="Painting setup overlooking Cook Inlet"></div>
+  <div class="slide" data-index="4"><img src="assets/process-05.jpg" alt="Blank panel ready on a snowy ridge"></div>
+  <div class="slide" data-index="5"><img src="assets/process-06.jpg" alt="Painting at sunset with the Chugach behind"></div>
+  <div class="slide" data-index="6"><img src="assets/process-07.jpg" alt="Cade Bennett painting beside a mountain stream"></div>
+  <div class="slide" data-index="7"><img src="assets/process-08.jpg" alt="Painting setup at golden hour over the inlet"></div>
+  <div class="slide" data-index="8"><img src="assets/process-09.jpg" alt="Painting a waterfall scene in the forest"></div>
+  <div class="slide" data-index="9"><img src="assets/process-10.jpg" alt="Painting beside a quiet creek"></div>
+  <div class="hero-simple-scrim"></div>
+  <div class="ws-hero-text">
+    <div class="eyebrow">Cade Bennett — Workshops</div>
+    <h1 class="h-top">Learn to Paint</h1>
+    <div class="h-rule"></div>
+    <h1 class="h-bottom">Plein Air Alaska</h1>
+  </div>
+</div>
+
+<section class="ws-intro">
+  <span class="label">Workshops</span>
+  <p>"I teach the way I paint — outdoors, fast, and led by the light. Whether you've never picked up a brush or you're refining years of practice, these workshops are built around real Alaska landscapes, not a studio still life."</p>
+</section>
+
+<section class="courses-section">
+
+  <div class="course-block">
+    <div class="course-media">
+      <img src="assets/process-04.jpg" alt="Introduction to Plein Air">
+      <div class="course-badge">Beginner</div>
+    </div>
+    <div class="course-copy">
+      <div class="level-row">
+        <span class="dot studio"></span>
+        <span class="level-meta">Beginner</span>
+      </div>
+      <h2>Introduction to Plein Air</h2>
+      <p class="tagline">Your first outdoor painting session, start to finish.</p>
+      <p class="overview">[Replace with compelling workshop description. 2-3 sentences about what students will learn and create. Example: 'Discover the fundamentals of capturing Alaska's dramatic landscapes in oil. Learn color mixing, composition, and techniques for painting mountains, glaciers, and northern lights.']</p>
+      <div class="course-cols">
+        <div>
+          <h4>What You'll Learn</h4>
+          <ul><li>Learning objective 1</li>
+<li>Learning objective 2</li>
+<li>Learning objective 3</li>
+<li>Learning objective 4</li>
+<li>Learning objective 5</li></ul>
+        </div>
+        <div>
+          <h4>Materials Provided</h4>
+          <ul><li>Material 1</li>
+<li>Material 2</li>
+<li>Material 3</li>
+<li>All supplies included</li></ul>
+        </div>
+      </div>
+      <div class="course-details">
+        <div class="d-item"><span>Duration</span><span>[X hours/days]</span></div>
+<div class="d-item"><span>Class Size</span><span>[Max # students]</span></div>
+<div class="d-item"><span>Location</span><span>[Studio/Location]</span></div>
+<div class="d-item"><span>Price</span><span>$[XXX]</span></div>
+      </div>
+      <div class="course-cta">
+        <a href="mailto:cade@cadebennett.art?subject=Workshop%20Inquiry:%20Introduction%20to%20Plein%20Air">Reserve a Spot</a>
+        <span class="tba">Dates TBA</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-block reverse">
+    <div class="course-media">
+      <img src="assets/process-03.jpg" alt="Color & Light">
+      <div class="course-badge">Intermediate</div>
+    </div>
+    <div class="course-copy">
+      <div class="level-row">
+        <span class="dot studio"></span>
+        <span class="level-meta">Intermediate</span>
+      </div>
+      <h2>Color & Light</h2>
+      <p class="tagline">Advanced techniques for capturing northern light.</p>
+      <p class="overview">[Replace with compelling workshop description. 2-3 sentences about what students will learn and create. Example: 'Discover the fundamentals of capturing Alaska's dramatic landscapes in oil. Learn color mixing, composition, and techniques for painting mountains, glaciers, and northern lights.']</p>
+      <div class="course-cols">
+        <div>
+          <h4>What You'll Learn</h4>
+          <ul><li>Learning objective 1</li>
+<li>Learning objective 2</li>
+<li>Learning objective 3</li>
+<li>Learning objective 4</li>
+<li>Learning objective 5</li></ul>
+        </div>
+        <div>
+          <h4>Materials Provided</h4>
+          <ul><li>Material 1</li>
+<li>Material 2</li>
+<li>Material 3</li>
+<li>All supplies included</li></ul>
+        </div>
+      </div>
+      <div class="course-details">
+        <div class="d-item"><span>Duration</span><span>[X hours/days]</span></div>
+<div class="d-item"><span>Class Size</span><span>[Max # students]</span></div>
+<div class="d-item"><span>Location</span><span>[Studio/Location]</span></div>
+<div class="d-item"><span>Prerequisites</span><span>[Basic]</span></div>
+      </div>
+      <div class="course-cta">
+        <a href="mailto:cade@cadebennett.art?subject=Workshop%20Inquiry:%20Color%20&%20Light">Reserve a Spot</a>
+        <span class="tba">Dates TBA</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-block">
+    <div class="course-media">
+      <img src="assets/process-09.jpg" alt="Painting in Plein Air">
+      <div class="course-badge">Advanced</div>
+    </div>
+    <div class="course-copy">
+      <div class="level-row">
+        <span class="dot outdoor"></span>
+        <span class="level-meta">Advanced</span>
+      </div>
+      <h2>Painting in Plein Air</h2>
+      <p class="tagline">Mastering Alaska's dramatic landscapes in oil.</p>
+      <p class="overview">[Replace with compelling workshop description. 2-3 sentences about what students will learn and create. Example: 'Discover the fundamentals of capturing Alaska's dramatic landscapes in oil. Learn color mixing, composition, and techniques for painting mountains, glaciers, and northern lights.']</p>
+      <div class="course-cols">
+        <div>
+          <h4>What You'll Learn</h4>
+          <ul><li>Learning objective 1</li>
+<li>Learning objective 2</li>
+<li>Learning objective 3</li>
+<li>Learning objective 4</li>
+<li>Learning objective 5</li></ul>
+        </div>
+        <div>
+          <h4>Materials Provided</h4>
+          <ul><li>Material 1</li>
+<li>Material 2</li>
+<li>Material 3</li>
+<li>All supplies included</li></ul>
+        </div>
+      </div>
+      <div class="course-details">
+        <div class="d-item"><span>Duration</span><span>[X hours/days]</span></div>
+<div class="d-item"><span>Class Size</span><span>[Max # students]</span></div>
+<div class="d-item"><span>Location</span><span>[Outdoor Location]</span></div>
+<div class="d-item"><span>Prerequisites</span><span>[All Levels]</span></div>
+      </div>
+      <div class="course-cta">
+        <a href="mailto:cade@cadebennett.art?subject=Workshop%20Inquiry:%20Painting%20in%20Plein%20Air">Reserve a Spot</a>
+        <span class="tba">Dates TBA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="zoom-strip">
+  <span class="label">Can't Make It In Person?</span>
+  <h2>Zoom Classes</h2>
+  <p>Live, small-group painting sessions online — same teaching, from wherever you are. Details coming soon.</p>
+  <a href="mailto:cade@cadebennett.art?subject=Zoom%20Class%20Interest">Get Notified</a>
+</section>
+
+<section class="signup-section">
+  <div class="signup-inner">
+    <span class="label">Stay in the loop</span>
+    <h2>Hear about new work first.</h2>
+    <p>New paintings, workshops, and plein air trips — occasional emails, no spam.</p>
+    <form class="signup-form">
+      <input type="email" placeholder="your@email.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer" id="footer">
+  <div class="footer-top">
+    <div class="footer-brand">Cade Bennett.</div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <span class="label">Shop</span>
+        <a href="gallery.html">Originals</a>
+        <a href="#">Prints</a>
+      </div>
+      <div class="footer-col">
+        <span class="label">Learn</span>
+        <a href="workshops.html">Workshops</a>
+        <a href="#">Zoom Classes</a>
+      </div>
+      <div class="footer-col">
+        <span class="label">Connect</span>
+        <a href="mailto:cade@cadebennett.art">cade@cadebennett.art</a>
+        <a href="tel:9077485922">(907) 748-5922</a>
+        <a href="#">@cade_painting_alaska</a>
+      </div>
+      <div class="footer-col">
+        <span class="label">Commission</span>
+        <a href="#">Request a Custom Piece</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Cade Bennett Art · cadebennett.art</span>
+    <span>Alaska, USA</span>
+  </div>
+</footer>
+
+<script>
+  const siteNav = document.getElementById('site-nav');
+  window.addEventListener('scroll', () => {
+    siteNav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+</script>
+<script>
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburgerBtn.addEventListener('click', () => {
+    hamburgerBtn.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburgerBtn.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+</script>
+
+
+<script>
+  (function(){
+    const stack = document.getElementById('hero-slideshow');
+    const slides = Array.from(stack.querySelectorAll('.slide'));
+    let i = 0;
+    setInterval(() => {
+      slides[i].classList.remove('is-active');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('is-active');
+    }, 3500);
+  })();
+</script>
+
+<script>
+  window.SnipcartSettings = {
+    publicApiKey: "MGQ3OGVmMjQtMzk5MC00NTMwLThkNmYtOWE5MTRiMTI3NzZkNjM5MjI4NTMwNzMzMTIyMjk2",
+    loadStrategy: "on-user-interaction",
+    modalStyle: "side",
+    addProductBehavior: "none",
+  };
+  (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('src[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){!y||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
+</script>
+
+<script>
+  document.addEventListener('snipcart.ready', function() {
+    Snipcart.events.on('cart.opened', () => document.body.classList.add('cart-open'));
+    Snipcart.events.on('cart.closed', () => document.body.classList.remove('cart-open'));
+  });
+</script>
+</body>
+</html>

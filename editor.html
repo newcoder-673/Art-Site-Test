@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Gallery Editor — Cade Bennett Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=IBM+Plex+Mono:wght@500&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12100D; --paper:#F7F4EC; --paper-dim:#EFEAE0;
+    --gold:#A9842E; --gold-light:#C7A54B; --rust:#B23A20; --stone:#7A7266;
+  }
+  *{box-sizing:border-box;}
+  html{background:var(--paper);}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  .label{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; font-weight:500; color:var(--rust);}
+
+  header{padding:6vh 6% 4vh; text-align:center; border-bottom:1px solid rgba(18,16,13,0.1); background:var(--ink); color:var(--paper);}
+  header h1{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(26px,4vw,40px); text-transform:uppercase; letter-spacing:0.06em; margin:14px 0 10px;}
+  header p{color:var(--stone); font-family:'Fraunces',serif; font-style:italic; font-size:15px; max-width:520px; margin:0 auto;}
+  header .label{color:var(--gold-light);}
+
+  .toolbar{position:sticky; top:0; z-index:50; background:rgba(247,244,236,0.95); backdrop-filter:blur(8px); border-bottom:1px solid rgba(18,16,13,0.12); padding:16px 6%; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  .toolbar .status{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--stone); letter-spacing:0.04em;}
+  .toolbar .status.dirty{color:var(--rust);}
+  .btn{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; border:none; padding:12px 22px; border-radius:30px; cursor:pointer; transition:background .2s ease;}
+  .btn-primary{background:var(--rust); color:#fff;}
+  .btn-primary:hover{background:#9c3119;}
+  .btn-secondary{background:none; border:1px solid rgba(18,16,13,0.2); color:var(--ink);}
+  .btn-secondary:hover{border-color:var(--ink);}
+  .btn-danger{background:none; border:1px solid rgba(178,58,32,0.4); color:var(--rust); font-size:10px; padding:8px 14px;}
+  .btn-danger:hover{background:rgba(178,58,32,0.08);}
+
+  .editor-grid{padding:5vh 6% 12vh; display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:28px; max-width:1400px; margin:0 auto;}
+  .item-card{background:#fff; border:1px solid rgba(18,16,13,0.12); border-radius:4px; overflow:hidden; display:flex; flex-direction:column;}
+  .item-card img{width:100%; aspect-ratio:4/3; object-fit:cover; display:block; background:var(--paper-dim);}
+  .item-fields{padding:16px; display:flex; flex-direction:column; gap:10px; flex:1;}
+  .field label{display:block; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:var(--stone); margin-bottom:4px;}
+  .field input, .field select{width:100%; font-family:'Fraunces',serif; font-size:15px; padding:8px 10px; border:1px solid rgba(18,16,13,0.15); border-radius:3px; background:var(--paper); color:var(--ink);}
+  .field input:focus, .field select:focus{outline:none; border-color:var(--rust);}
+  .field-row{display:flex; gap:10px;}
+  .field-row .field{flex:1;}
+  .item-footer{display:flex; justify-content:space-between; align-items:center; margin-top:6px; padding-top:10px; border-top:1px solid rgba(18,16,13,0.08);}
+  .item-filename{font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--stone);}
+
+  .toast{position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:var(--paper); padding:14px 28px; border-radius:30px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.04em; opacity:0; transition:all .3s ease; pointer-events:none; z-index:100;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="label">Internal Tool — Not Linked From Site</span>
+  <h1>Gallery Editor</h1>
+  <p>Edit title, medium, size, price, and category for each painting. Changes live here in your browser until you save.</p>
+</header>
+
+<div class="toolbar">
+  <div class="status" id="status">Loading…</div>
+  <div style="display:flex; gap:10px;">
+    <button class="btn btn-secondary" onclick="location.reload()">Discard Changes</button>
+    <button class="btn btn-primary" onclick="downloadJSON()">Download Updated File</button>
+  </div>
+</div>
+
+<div class="editor-grid" id="editor-grid">
+  <div style="grid-column:1/-1; text-align:center; padding:8vh 0; font-family:'IBM Plex Mono',monospace; color:var(--stone);">Loading gallery-data.json…</div>
+</div>
+
+<div class="toast" id="toast">Downloaded gallery-data.json — replace the file in your assets folder to publish these changes.</div>
+
+<script>
+  let items = [];
+  let dirty = false;
+  const grid = document.getElementById('editor-grid');
+  const status = document.getElementById('status');
+  const toast = document.getElementById('toast');
+
+  const CATEGORIES = ['Mountains','Coastal','Winter','Woodland'];
+
+  fetch('assets/gallery-data.json')
+    .then(r => r.json())
+    .then(data => {
+      items = data;
+      render();
+      setStatus();
+    })
+    .catch(err => {
+      grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:8vh 0; font-family:\'IBM Plex Mono\',monospace; color:var(--rust);">Could not load assets/gallery-data.json — make sure this file is opened from the site folder alongside gallery.html.</div>';
+      console.error(err);
+    });
+
+  function setStatus() {
+    status.textContent = dirty
+      ? `${items.length} paintings — unsaved changes`
+      : `${items.length} paintings — all changes exported`;
+    status.classList.toggle('dirty', dirty);
+  }
+
+  function render() {
+    grid.innerHTML = items.map((item, i) => `
+      <div class="item-card">
+        <img src="assets/${item.file}" alt="${item.title}" loading="lazy">
+        <div class="item-fields">
+          <div class="field">
+            <label>Title</label>
+            <input type="text" value="${escapeHtml(item.title)}" oninput="updateField(${i}, 'title', this.value)">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Medium</label>
+              <input type="text" value="${escapeHtml(item.medium)}" oninput="updateField(${i}, 'medium', this.value)">
+            </div>
+            <div class="field">
+              <label>Size</label>
+              <input type="text" value="${escapeHtml(item.size)}" oninput="updateField(${i}, 'size', this.value)">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Price</label>
+              <input type="text" value="${escapeHtml(item.price)}" oninput="updateField(${i}, 'price', this.value)">
+            </div>
+            <div class="field">
+              <label>Category</label>
+              <select onchange="updateField(${i}, 'category', this.value)">
+                ${CATEGORIES.map(c => `<option value="${c}" ${c === item.category ? 'selected' : ''}>${c}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+          <div class="item-footer">
+            <span class="item-filename">${item.file}</span>
+            <button class="btn btn-danger" onclick="removeItem(${i})">Remove</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function updateField(idx, field, value) {
+    items[idx][field] = value;
+    dirty = true;
+    setStatus();
+  }
+
+  function removeItem(idx) {
+    if (!confirm(`Remove "${items[idx].title}" from the gallery? This won't delete the image file, just removes it from the listing.`)) return;
+    items.splice(idx, 1);
+    dirty = true;
+    render();
+    setStatus();
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function downloadJSON() {
+    const blob = new Blob([JSON.stringify(items, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'gallery-data.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    dirty = false;
+    setStatus();
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+</script>
+
+</body>
+</html>

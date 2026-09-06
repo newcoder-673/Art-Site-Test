@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>Gallery — Cade Bennett Art | Alaska Landscape Paintings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=IBM+Plex+Mono:wght@500&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12100D; --paper:#F7F4EC; --paper-dim:#EFEAE0;
+    --gold:#A9842E; --gold-light:#C7A54B; --rust:#B23A20; --stone:#7A7266;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html{background:var(--paper);}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  .label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;font-weight:500;}
+  .note{background:#12100D;color:var(--gold-light);padding:16px 6%;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.05em;line-height:1.6;}
+  .note b{color:var(--paper);}
+  .divider{background:var(--ink); color:var(--paper); padding:24px 6%; position:sticky; top:0; z-index:90;}
+  .divider .label{color:var(--gold-light);}
+  .divider h2{font-family:'Fraunces',serif; font-size:20px; color:var(--paper); margin:6px 0 0; font-weight:600;}
+  .divider p{color:var(--stone); font-size:13px; margin:8px 0 0; max-width:640px; line-height:1.6;}
+
+  /* ---------- HAZY HERO (shared) ---------- */
+  .hero-simple{position:relative; height:135vh; min-height:900px; overflow:hidden;}
+  .hero-simple img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 42%;
+    opacity:0; animation: heroImgFade 1.4s ease forwards;
+  }
+  .hero-simple-scrim{position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.06) 100%); pointer-events:none;}
+  @keyframes heroImgFade{ from{opacity:0;} to{opacity:1;} }
+  .hero-simple-text{position:absolute; top:15vh; left:0; right:0; text-align:center; z-index:5;}
+  .hero-simple-text .h-top, .hero-simple-text .h-rule, .hero-simple-text .h-bottom{
+    opacity:0; transform:translateY(16px);
+    animation: heroTextFade 1s ease forwards;
+  }
+  .hero-simple-text .h-rule{ animation-delay:0.35s; }
+  .hero-simple-text .h-bottom{ animation-delay:0.55s; }
+  .hero-simple-text .h-top{ animation-delay:0.15s; }
+  @keyframes heroTextFade{ to{opacity:1; transform:translateY(0);} }
+  .h-top{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(34px,5.6vw,68px); line-height:1.15; color:#FFFFFF; letter-spacing:0.22em; text-transform:uppercase; text-shadow:0 2px 16px rgba(0,0,0,0.3);}
+  .h-rule{width:1px;height:34px;background:rgba(18,16,13,0.7);margin:18px auto;}
+  .h-bottom{font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(28px,4.6vw,54px); line-height:1.15; color:#12100D; letter-spacing:0.18em; text-transform:uppercase;}
+
+  /* =========================================================
+     LAYOUT A — EDITORIAL SPREAD (one large image + wide margins)
+     ========================================================= */
+  .a-section{padding:16vh 10% 16vh; text-align:center;}
+  .a-section .label{color:var(--rust);}
+  .a-section h2{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(24px,3.2vw,36px); text-transform:uppercase; letter-spacing:0.06em; margin:16px 0 60px;}
+  .a-figure{max-width:900px; margin:0 auto;}
+  .a-figure img{width:100%;}
+  .a-caption{margin-top:22px; display:flex; justify-content:space-between; max-width:900px; margin-left:auto; margin-right:auto; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:var(--stone);}
+  .a-caption .t{font-family:'Fraunces',serif; font-size:16px; color:var(--ink); letter-spacing:0; text-transform:none;}
+  .a-list{max-width:640px; margin:80px auto 0; text-align:left;}
+  .a-item{display:flex; justify-content:space-between; align-items:baseline; padding:22px 0; border-bottom:1px solid rgba(18,16,13,0.1);}
+  .a-item h3{font-family:'Fraunces',serif; font-weight:600; font-size:19px; margin:0;}
+  .a-item span{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.06em; color:var(--stone); text-transform:uppercase;}
+
+  /* =========================================================
+     LAYOUT B — QUIET GRID (wide gutters, hairline borders, muted images)
+     ========================================================= */
+  .b-section{padding:14vh 8%;}
+  .b-head{text-align:center; margin-bottom:80px;}
+  .b-head .label{color:var(--rust);}
+  .b-head h2{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(24px,3.2vw,36px); text-transform:uppercase; letter-spacing:0.06em; margin:16px 0 0;}
+  .b-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:60px 40px;}
+  @media (max-width:900px){ .b-grid{grid-template-columns:repeat(2,1fr); gap:44px 24px;} }
+  @media (max-width:560px){ .b-grid{grid-template-columns:1fr; gap:40px;} }
+  .b-card{text-align:center;}
+  .b-card .frame{border:1px solid rgba(18,16,13,0.14); padding:14px; margin-bottom:18px;}
+  .b-card img{}
+  .b-card h3{font-family:'Fraunces',serif; font-weight:600; font-size:17px; margin:0 0 4px;}
+  .b-card .m{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--stone); letter-spacing:0.04em;}
+
+  .b-workshops{max-width:760px; margin:100px auto 0; text-align:center;}
+  .b-ws-row{display:flex; justify-content:space-between; align-items:center; padding:26px 0; border-bottom:1px solid rgba(18,16,13,0.1); text-align:left;}
+  .b-ws-row h3{font-family:'Fraunces',serif; font-weight:600; font-size:18px; margin:0 0 4px;}
+  .b-ws-row .meta{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--stone); text-transform:uppercase; letter-spacing:0.04em;}
+  .b-ws-row .tba{font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--rust); text-transform:uppercase; letter-spacing:0.06em; white-space:nowrap;}
+
+
+
+  /* ---------- ARTIST STATEMENT (quiet content) ---------- */
+  .statement-section{padding:16vh 10% 14vh; text-align:center;}
+  .statement-section .label{color:var(--rust);}
+  .statement-section p{font-family:'Fraunces',serif; font-weight:400; font-size:clamp(20px,2.4vw,26px); line-height:1.65; color:#2b2820; max-width:680px; margin:26px auto 0; font-style:italic;}
+
+  /* ---------- SIGNUP (redesigned) ---------- */
+  .signup-section{background:var(--ink); color:var(--paper); text-align:center; padding:16vh 8%; position:relative; overflow:hidden;}
+  .signup-section::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(ellipse 70% 60% at 50% 0%, rgba(169,132,46,0.14), transparent 70%);
+    pointer-events:none;
+  }
+  .signup-inner{position:relative; z-index:2; max-width:560px; margin:0 auto;}
+  .signup-section .label{color:var(--gold-light);}
+  .signup-section h2{font-family:'Fraunces',serif; font-weight:600; font-size:clamp(30px,4vw,46px); margin:18px 0 14px; color:var(--paper); line-height:1.15;}
+  .signup-section p{color:var(--stone); font-size:15px; margin:0 auto 40px; max-width:400px; line-height:1.6;}
+  .signup-form{display:flex; gap:10px; max-width:440px; margin:0 auto; background:rgba(246,241,231,0.06); border:1px solid rgba(246,241,231,0.18); border-radius:40px; padding:6px 6px 6px 22px;}
+  .signup-form input{flex:1; background:transparent; border:none; outline:none; color:var(--paper); font-family:'Inter',sans-serif; font-size:14px;}
+  .signup-form input::placeholder{color:var(--stone);}
+  .signup-form button{background:var(--rust); border:none; color:var(--paper); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; padding:13px 24px; border-radius:30px; white-space:nowrap; transition:background .2s ease;}
+  .signup-form button:hover{background:#9c3119;}
+
+  /* ---------- FOOTER ---------- */
+  .site-footer{background:var(--ink); color:var(--stone); padding:50px 8% 30px; border-top:1px solid rgba(246,241,231,0.12);}
+  .footer-top{display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px; padding-bottom:30px;}
+  .footer-brand{font-family:'Inter',sans-serif; font-weight:300; letter-spacing:0.14em; text-transform:uppercase; font-size:15px; color:var(--paper);}
+  .footer-cols{display:flex; gap:60px; flex-wrap:wrap;}
+  .footer-col .label{color:var(--gold-light); margin-bottom:12px; display:block;}
+  .footer-col a{display:block; text-decoration:none; color:var(--stone); font-size:13px; margin-bottom:8px;}
+  .footer-col a:hover{color:var(--paper);}
+  .footer-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding-top:20px; border-top:1px solid rgba(246,241,231,0.12); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.05em;}
+
+
+  /* ---------- ARTIST (simple contained layout) ---------- */
+  .artist-simple{padding:16vh 8% 14vh; display:grid; grid-template-columns:0.8fr 1.2fr; gap:70px; align-items:center; max-width:1100px; margin:0 auto;}
+  .artist-simple .photo{aspect-ratio:4/5; overflow:hidden; border-radius:2px; position:relative;}
+  .artist-simple .photo .slide{
+    position:absolute; inset:0; opacity:0; transition:opacity 1.4s ease;
+  }
+  .artist-simple .photo .slide.is-active{ opacity:1; }
+  .artist-simple .photo .slide img{width:100%; height:100%; object-fit:cover;}
+  .artist-simple .photo .slide[data-pos="painting"] img{ object-position:70% 45%; }
+  .artist-simple .photo .slide[data-pos="portrait"] img{ object-position:50% 15%; }
+  .artist-simple .photo .slide[data-pos="river"] img{ object-position:60% 40%; }
+  .artist-simple .photo .slide[data-pos="group"] img{ object-position:50% 40%; }
+  .artist-simple .photo .slide[data-pos="studio"] img{ object-position:60% 30%; }
+  .artist-simple .photo .slide[data-pos="lakeside"] img{ object-position:50% 45%; }
+  .artist-simple .photo .dots{
+    position:absolute; bottom:16px; left:0; right:0; z-index:3;
+    display:flex; justify-content:center; gap:7px;
+  }
+  .artist-simple .photo .dots span{
+    width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.45);
+    transition:background .3s ease, transform .3s ease;
+  }
+  .artist-simple .photo .dots span.is-active{ background:#fff; transform:scale(1.25); }
+  .artist-simple .copy{text-align:left;}
+  .artist-simple .copy .label{color:var(--rust); display:block; margin-bottom:16px;}
+  .artist-simple .copy h2{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(26px,3.2vw,38px); text-transform:uppercase; letter-spacing:0.04em; margin:0 0 20px; line-height:1.2;}
+  .artist-simple .copy p{font-family:'Fraunces',serif; font-style:italic; font-size:19px; line-height:1.7; color:#2b2820; margin:0; max-width:460px;}
+  @media (max-width:760px){ .artist-simple{grid-template-columns:1fr;} }
+
+
+  .ws-banner{position:relative; max-width:900px; margin:0 auto 70px;}
+  .ws-banner .main{border:1px solid rgba(18,16,13,0.14); padding:10px;}
+  .ws-banner .main img{width:100%; display:block; aspect-ratio:3/2; object-fit:cover;}
+  .ws-banner .inset{
+    position:absolute; bottom:-28px; right:-28px; width:26%; min-width:120px;
+    border:4px solid var(--paper); box-shadow:0 10px 24px rgba(0,0,0,0.14);
+  }
+  .ws-banner .inset img{width:100%; display:block; aspect-ratio:3/2; object-fit:cover;}
+  .ws-banner .inset-left{
+    position:absolute; bottom:-28px; left:-28px; width:22%; min-width:100px;
+    border:4px solid var(--paper); box-shadow:0 10px 24px rgba(0,0,0,0.14);
+  }
+  .ws-banner .inset-left img{width:100%; display:block; aspect-ratio:3/4; object-fit:cover;}
+  @media (max-width:640px){
+    .ws-banner .main{ margin-bottom:14px; }
+    .ws-banner .inset, .ws-banner .inset-left{
+      position:static; display:inline-block; width:48%; margin:0; box-shadow:none; border-width:2px; vertical-align:top;
+    }
+    .ws-banner .inset{ margin-left:4%; }
+  }
+
+
+  /* ---------- NAV (Variant 1: inline email capture) ---------- */
+  #site-nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:24px 5%; transition:padding .3s ease, background .3s ease;
+  }
+  #site-nav.scrolled{ background:rgba(18,16,13,0.92); backdrop-filter:blur(6px); padding:14px 5%; }
+  .nav-brand{display:flex; align-items:center;}
+  .nav-brand img{height:38px; width:38px; display:block; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.4));}
+  .nav-links{display:flex; gap:28px; list-style:none; margin:0; padding:0;}
+  .nav-links a{color:#fff; text-decoration:none; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.9;}
+  .nav-links a:hover{opacity:1; color:var(--gold-light);}
+  .nav-signup{display:flex; align-items:center; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.3); border-radius:30px; padding:5px 5px 5px 16px;}
+  .nav-signup input{background:transparent; border:none; outline:none; color:#fff; font-family:'Inter',sans-serif; font-size:12px; width:140px;}
+  .nav-signup input::placeholder{color:rgba(255,255,255,0.6);}
+  .nav-signup button{background:var(--rust); border:none; color:#fff; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; padding:9px 16px; border-radius:24px; cursor:pointer; white-space:nowrap;}
+  .nav-hamburger{
+    display:none; flex-direction:column; justify-content:center; gap:5px;
+    width:34px; height:34px; background:none; border:none; cursor:pointer; padding:0;
+  }
+  .nav-hamburger span{ display:block; width:100%; height:2px; background:#fff; transition:transform .25s ease, opacity .25s ease; }
+  .nav-hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2){ opacity:0; }
+  .nav-hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu{
+    position:fixed; top:0; left:0; right:0; z-index:99;
+    background:rgba(18,16,13,0.97); backdrop-filter:blur(8px);
+    max-height:0; overflow:hidden; transition:max-height .35s ease;
+    padding:0 8%;
+  }
+  .mobile-menu.open{ max-height:420px; padding:90px 8% 30px; }
+  .mobile-menu ul{ list-style:none; margin:0; padding:0; }
+  .mobile-menu li{ border-bottom:1px solid rgba(246,241,231,0.12); }
+  .mobile-menu a{
+    display:block; padding:16px 0; color:#fff; text-decoration:none;
+    font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.1em; text-transform:uppercase;
+  }
+  .mobile-menu-form{
+    display:flex; gap:8px; margin-top:22px;
+    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.25); border-radius:30px; padding:6px 6px 6px 18px;
+  }
+  .mobile-menu-form input{ flex:1; background:transparent; border:none; outline:none; color:#fff; font-family:'Inter',sans-serif; font-size:13px; }
+  .mobile-menu-form input::placeholder{ color:var(--stone); }
+  .mobile-menu-form button{ background:var(--rust); border:none; color:#fff; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.06em; text-transform:uppercase; padding:10px 18px; border-radius:24px; cursor:pointer; }
+
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .nav-signup{display:none;}
+    .nav-hamburger{display:flex;}
+  }
+
+  .end-pad{height:0;}
+
+  .cart-open #site-nav{ opacity:0; pointer-events:none; }
+</style>
+<link rel="preconnect" href="https://app.snipcart.com" />
+<link rel="preconnect" href="https://cdn.snipcart.com" />
+
+<style>
+  .gallery-header{padding:22vh 8% 6vh; text-align:center;}
+  .gallery-header .label{color:var(--rust);}
+  .gallery-header h1{font-family:'Inter',sans-serif; font-weight:200; font-size:clamp(32px,5vw,58px); text-transform:uppercase; letter-spacing:0.08em; margin:16px 0 18px; line-height:1.15;}
+  .gallery-header p{font-family:'Fraunces',serif; font-style:italic; font-size:17px; color:var(--stone); max-width:520px; margin:0 auto; line-height:1.6;}
+
+  .filter-bar{position:sticky; top:0; z-index:80; background:rgba(247,244,236,0.92); backdrop-filter:blur(8px); border-bottom:1px solid rgba(18,16,13,0.1); padding:18px 8%; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;}
+  .filter-btn{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; background:none; border:1px solid rgba(18,16,13,0.18); color:var(--ink); padding:9px 18px; border-radius:30px; cursor:pointer; transition:all .2s ease;}
+  .filter-btn:hover{border-color:var(--rust); color:var(--rust);}
+  .filter-btn.active{background:var(--ink); border-color:var(--ink); color:var(--paper);}
+  .filter-count{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--stone); text-align:center; padding:16px 8% 0; letter-spacing:0.04em;}
+
+  .gallery-grid-section{padding:6vh 8% 14vh;}
+  .g-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:52px 36px;}
+  @media (max-width:900px){ .g-grid{grid-template-columns:repeat(2,1fr); gap:40px 22px;} }
+  @media (max-width:560px){ .g-grid{grid-template-columns:1fr; gap:38px;} }
+  .g-card{text-align:center;}
+  .g-card .frame{border:1px solid rgba(18,16,13,0.14); padding:12px; margin-bottom:16px; overflow:hidden; position:relative; cursor:pointer;}
+  .g-card .frame img{width:100%; display:block; aspect-ratio:4/3; object-fit:cover; transition:transform .5s ease;}
+  .g-card .frame:hover img{transform:scale(1.045);}
+  .g-card .frame .zoom-hint{position:absolute; inset:12px; background:linear-gradient(0deg, rgba(18,16,13,0.45), transparent 45%); opacity:0; transition:opacity .3s ease; display:flex; align-items:flex-end; justify-content:flex-start; padding:14px; pointer-events:none;}
+  .g-card .frame:hover .zoom-hint{opacity:1;}
+  .g-card .frame .zoom-hint span{font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:#fff;}
+  .g-card h3{font-family:'Fraunces',serif; font-weight:600; font-size:17px; margin:0 0 4px;}
+  .g-card .m{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--stone); letter-spacing:0.04em;}
+  .g-card .price{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--rust); letter-spacing:0.04em; margin-top:6px; margin-bottom:14px;}
+  .g-card.hidden{display:none;}
+  .g-buy-btn{font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; background:var(--ink); color:var(--paper); border:none; padding:11px 20px; border-radius:24px; cursor:pointer; transition:background .2s ease;}
+  .g-buy-btn:hover{background:var(--rust);}
+
+  .lightbox{position:fixed; inset:0; z-index:200; background:rgba(18,16,13,0.94); display:none; align-items:center; justify-content:center; padding:6vh 6%;}
+  .lightbox.open{display:flex;}
+  .lightbox-inner{max-width:1000px; width:100%; text-align:center;}
+  .lightbox-inner img{width:100%; max-height:65vh; object-fit:contain; display:block; margin:0 auto;}
+  .lightbox-caption{margin-top:22px; color:var(--paper);}
+  .lightbox-caption h3{font-family:'Fraunces',serif; font-weight:600; font-size:22px; margin:0 0 6px; color:var(--paper);}
+  .lightbox-caption .m{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--gold-light); letter-spacing:0.05em;}
+  .lightbox-caption .price{font-family:'IBM Plex Mono',monospace; font-size:14px; color:#fff; margin:10px 0 18px;}
+  .lightbox-close{position:absolute; top:24px; right:5%; background:none; border:1px solid rgba(246,241,231,0.3); color:var(--paper); width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:18px; line-height:1;}
+  .lightbox-close:hover{border-color:var(--gold-light); color:var(--gold-light);}
+  .lightbox-nav{background:none; border:1px solid rgba(246,241,231,0.3); color:var(--paper); width:44px; height:44px; border-radius:50%; cursor:pointer; font-size:18px; position:fixed; top:50%; transform:translateY(-50%);}
+  .lightbox-nav:hover{border-color:var(--gold-light); color:var(--gold-light);}
+  .lightbox-prev{left:4%;}
+  .lightbox-next{right:4%;}
+  @media (max-width:640px){ .lightbox-nav{display:none;} }
+
+  .placeholder-note{max-width:640px; margin:0 auto 0; text-align:center; padding:0 8%;}
+  .placeholder-note p{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--stone); letter-spacing:0.03em; line-height:1.7;}
+  .placeholder-note a{color:var(--rust);}
+
+  .nav-cart{display:flex; align-items:center; gap:6px; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink); background:none; border:1px solid rgba(18,16,13,0.2); padding:8px 14px; border-radius:20px; margin-left:14px;}
+  .nav-cart:hover{border-color:var(--rust); color:var(--rust);}
+</style>
+
+<body>
+
+<nav id="site-nav">
+  <div class="nav-brand"><a href="index.html"><img src="assets/monogram.png" alt="Cade Bennett monogram"></a></div>
+  <ul class="nav-links">
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="index.html#artist">Artist</a></li>
+    <li><a href="index.html#footer">Contact</a></li>
+  </ul>
+  <div class="nav-signup">
+    <input type="email" placeholder="Email for updates">
+    <button>Join</button>
+    <button class="nav-cart snipcart-checkout">Cart (<span class="snipcart-items-count">0</span>)</button>
+  </div>
+  <button class="nav-hamburger" id="hamburger-btn" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <ul>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="index.html#artist">Artist</a></li>
+    <li><a href="index.html#footer">Contact</a></li>
+  </ul>
+  <form class="mobile-menu-form">
+    <input type="email" placeholder="your@email.com">
+    <button type="submit">Join</button>
+  </form>
+  <button class="nav-cart snipcart-checkout" style="margin:20px auto 0; display:block;">View Cart (<span class="snipcart-items-count">0</span>)</button>
+</div>
+
+<header class="gallery-header">
+  <span class="label">Available Originals</span>
+  <h1>The Gallery</h1>
+  <p>A collection of Alaska landscapes — from alpine ridgelines to tidal flats, painted on location and in the studio.</p>
+</header>
+
+<div class="filter-bar" id="filter-bar">
+  <button class="filter-btn active" data-filter="all">All Work</button>
+  <button class="filter-btn" data-filter="Mountains">Mountains</button>
+  <button class="filter-btn" data-filter="Coastal">Coastal</button>
+  <button class="filter-btn" data-filter="Winter">Winter</button>
+  <button class="filter-btn" data-filter="Woodland">Woodland</button>
+</div>
+<div class="filter-count" id="filter-count">Showing 27 of 27 originals</div>
+
+<section class="gallery-grid-section">
+  <div class="g-grid" id="g-grid">
+    <div class="g-card" data-category="Mountains" data-index="0">
+      <div class="frame" onclick="openLightbox(0)"><img src="assets/alaska-landscape-painting-turnagain-light.jpg" alt="Turnagain Light — Alaska landscape oil on canvas, 9x12&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Turnagain Light</h3>
+      <div class="m">Oil on Canvas · 9x12&quot;</div>
+      <div class="price">$650</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-turnagain-light"
+        data-item-price="650.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Canvas &middot; 9x12&quot;"
+        data-item-image="assets/alaska-landscape-painting-turnagain-light.jpg"
+        data-item-name="Turnagain Light">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Coastal" data-index="1">
+      <div class="frame" onclick="openLightbox(1)"><img src="assets/alaska-landscape-painting-cook-inlet-morning.jpg" alt="Cook Inlet Morning — Alaska landscape oil on linen panel, 11x14&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Cook Inlet Morning</h3>
+      <div class="m">Oil on Linen Panel · 11x14&quot;</div>
+      <div class="price">$780</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-cook-inlet-morning"
+        data-item-price="780.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Linen Panel &middot; 11x14&quot;"
+        data-item-image="assets/alaska-landscape-painting-cook-inlet-morning.jpg"
+        data-item-name="Cook Inlet Morning">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Winter" data-index="2">
+      <div class="frame" onclick="openLightbox(2)"><img src="assets/alaska-landscape-painting-chugach-ridge.jpg" alt="Chugach Ridge — Alaska landscape watercolor, 12x16&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Chugach Ridge</h3>
+      <div class="m">Watercolor · 12x16&quot;</div>
+      <div class="price">$950</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-chugach-ridge"
+        data-item-price="950.0"
+        data-item-url="/gallery.html"
+        data-item-description="Watercolor &middot; 12x16&quot;"
+        data-item-image="assets/alaska-landscape-painting-chugach-ridge.jpg"
+        data-item-name="Chugach Ridge">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Woodland" data-index="3">
+      <div class="frame" onclick="openLightbox(3)"><img src="assets/alaska-landscape-painting-kenai-overlook.jpg" alt="Kenai Overlook — Alaska landscape oil on panel, 16x20&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Kenai Overlook</h3>
+      <div class="m">Oil on Panel · 16x20&quot;</div>
+      <div class="price">$1,100</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-kenai-overlook"
+        data-item-price="1100.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Panel &middot; 16x20&quot;"
+        data-item-image="assets/alaska-landscape-painting-kenai-overlook.jpg"
+        data-item-name="Kenai Overlook">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Mountains" data-index="4">
+      <div class="frame" onclick="openLightbox(4)"><img src="assets/alaska-landscape-painting-denali-haze.jpg" alt="Denali Haze — Alaska landscape oil on canvas, 8x10&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Denali Haze</h3>
+      <div class="m">Oil on Canvas · 8x10&quot;</div>
+      <div class="price">$1,250</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-denali-haze"
+        data-item-price="1250.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Canvas &middot; 8x10&quot;"
+        data-item-image="assets/alaska-landscape-painting-denali-haze.jpg"
+        data-item-name="Denali Haze">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Coastal" data-index="5">
+      <div class="frame" onclick="openLightbox(5)"><img src="assets/alaska-landscape-painting-matanuska-frost.jpg" alt="Matanuska Frost — Alaska landscape oil on linen panel, 18x24&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Matanuska Frost</h3>
+      <div class="m">Oil on Linen Panel · 18x24&quot;</div>
+      <div class="price">$1,450</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-matanuska-frost"
+        data-item-price="1450.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Linen Panel &middot; 18x24&quot;"
+        data-item-image="assets/alaska-landscape-painting-matanuska-frost.jpg"
+        data-item-name="Matanuska Frost">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Winter" data-index="6">
+      <div class="frame" onclick="openLightbox(6)"><img src="assets/alaska-landscape-painting-portage-stillness.jpg" alt="Portage Stillness — Alaska landscape watercolor, 14x18&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Portage Stillness</h3>
+      <div class="m">Watercolor · 14x18&quot;</div>
+      <div class="price">$1,650</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-portage-stillness"
+        data-item-price="1650.0"
+        data-item-url="/gallery.html"
+        data-item-description="Watercolor &middot; 14x18&quot;"
+        data-item-image="assets/alaska-landscape-painting-portage-stillness.jpg"
+        data-item-name="Portage Stillness">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Woodland" data-index="7">
+      <div class="frame" onclick="openLightbox(7)"><img src="assets/alaska-landscape-painting-resurrection-bay.jpg" alt="Resurrection Bay — Alaska landscape oil on panel, 9x12&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Resurrection Bay</h3>
+      <div class="m">Oil on Panel · 9x12&quot;</div>
+      <div class="price">$1,800</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-resurrection-bay"
+        data-item-price="1800.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Panel &middot; 9x12&quot;"
+        data-item-image="assets/alaska-landscape-painting-resurrection-bay.jpg"
+        data-item-name="Resurrection Bay">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Mountains" data-index="8">
+      <div class="frame" onclick="openLightbox(8)"><img src="assets/alaska-landscape-painting-eklutna-gold.jpg" alt="Eklutna Gold — Alaska landscape oil on canvas, 11x14&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Eklutna Gold</h3>
+      <div class="m">Oil on Canvas · 11x14&quot;</div>
+      <div class="price">$2,100</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-eklutna-gold"
+        data-item-price="2100.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Canvas &middot; 11x14&quot;"
+        data-item-image="assets/alaska-landscape-painting-eklutna-gold.jpg"
+        data-item-name="Eklutna Gold">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Coastal" data-index="9">
+      <div class="frame" onclick="openLightbox(9)"><img src="assets/alaska-landscape-painting-homer-spit-dusk.jpg" alt="Homer Spit Dusk — Alaska landscape oil on linen panel, 12x16&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Homer Spit Dusk</h3>
+      <div class="m">Oil on Linen Panel · 12x16&quot;</div>
+      <div class="price">$2,400</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-homer-spit-dusk"
+        data-item-price="2400.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Linen Panel &middot; 12x16&quot;"
+        data-item-image="assets/alaska-landscape-painting-homer-spit-dusk.jpg"
+        data-item-name="Homer Spit Dusk">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Winter" data-index="10">
+      <div class="frame" onclick="openLightbox(10)"><img src="assets/alaska-landscape-painting-talkeetna-birches.jpg" alt="Talkeetna Birches — Alaska landscape watercolor, 16x20&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Talkeetna Birches</h3>
+      <div class="m">Watercolor · 16x20&quot;</div>
+      <div class="price">$650</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-talkeetna-birches"
+        data-item-price="650.0"
+        data-item-url="/gallery.html"
+        data-item-description="Watercolor &middot; 16x20&quot;"
+        data-item-image="assets/alaska-landscape-painting-talkeetna-birches.jpg"
+        data-item-name="Talkeetna Birches">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Winter" data-index="11">
+      <div class="frame" onclick="openLightbox(11)"><img src="assets/alaska-landscape-painting-turnagain-arm-tide.jpg" alt="Turnagain Arm Tide — Alaska landscape watercolor, 9x12&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Turnagain Arm Tide</h3>
+      <div class="m">Watercolor · 9x12&quot;</div>
+      <div class="price">$1,250</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-turnagain-arm-tide"
+        data-item-price="1250.0"
+        data-item-url="/gallery.html"
+        data-item-description="Watercolor &middot; 9x12&quot;"
+        data-item-image="assets/alaska-landscape-painting-turnagain-arm-tide.jpg"
+        data-item-name="Turnagain Arm Tide">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Woodland" data-index="12">
+      <div class="frame" onclick="openLightbox(12)"><img src="assets/alaska-landscape-painting-palmer-hayflats.jpg" alt="Palmer Hayflats — Alaska landscape oil on panel, 18x24&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Palmer Hayflats</h3>
+      <div class="m">Oil on Panel · 18x24&quot;</div>
+      <div class="price">$2,400</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-palmer-hayflats"
+        data-item-price="2400.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Panel &middot; 18x24&quot;"
+        data-item-image="assets/alaska-landscape-painting-palmer-hayflats.jpg"
+        data-item-name="Palmer Hayflats">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Coastal" data-index="13">
+      <div class="frame" onclick="openLightbox(13)"><img src="assets/alaska-landscape-painting-eagle-river-valley.jpg" alt="Eagle River Valley — Alaska landscape oil on linen panel, 9x12&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Eagle River Valley</h3>
+      <div class="m">Oil on Linen Panel · 9x12&quot;</div>
+      <div class="price">$780</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-eagle-river-valley"
+        data-item-price="780.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Linen Panel &middot; 9x12&quot;"
+        data-item-image="assets/alaska-landscape-painting-eagle-river-valley.jpg"
+        data-item-name="Eagle River Valley">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Winter" data-index="14">
+      <div class="frame" onclick="openLightbox(14)"><img src="assets/alaska-landscape-painting-kachemak-bay.jpg" alt="Kachemak Bay — Alaska landscape watercolor, 11x14&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Kachemak Bay</h3>
+      <div class="m">Watercolor · 11x14&quot;</div>
+      <div class="price">$950</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-kachemak-bay"
+        data-item-price="950.0"
+        data-item-url="/gallery.html"
+        data-item-description="Watercolor &middot; 11x14&quot;"
+        data-item-image="assets/alaska-landscape-painting-kachemak-bay.jpg"
+        data-item-name="Kachemak Bay">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Woodland" data-index="15">
+      <div class="frame" onclick="openLightbox(15)"><img src="assets/alaska-landscape-painting-winter-birch-grove.jpg" alt="Winter Birch Grove — Alaska landscape oil on panel, 12x16&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Winter Birch Grove</h3>
+      <div class="m">Oil on Panel · 12x16&quot;</div>
+      <div class="price">$1,100</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-winter-birch-grove"
+        data-item-price="1100.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Panel &middot; 12x16&quot;"
+        data-item-image="assets/alaska-landscape-painting-winter-birch-grove.jpg"
+        data-item-name="Winter Birch Grove">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Mountains" data-index="16">
+      <div class="frame" onclick="openLightbox(16)"><img src="assets/alaska-landscape-painting-alpenglow-chugach.jpg" alt="Alpenglow, Chugach — Alaska landscape oil on canvas, 16x20&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Alpenglow, Chugach</h3>
+      <div class="m">Oil on Canvas · 16x20&quot;</div>
+      <div class="price">$1,250</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-alpenglow-chugach"
+        data-item-price="1250.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Canvas &middot; 16x20&quot;"
+        data-item-image="assets/alaska-landscape-painting-alpenglow-chugach.jpg"
+        data-item-name="Alpenglow, Chugach">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Coastal" data-index="17">
+      <div class="frame" onclick="openLightbox(17)"><img src="assets/alaska-landscape-painting-tidal-flats-at-low-water.jpg" alt="Tidal Flats at Low Water — Alaska landscape oil on linen panel, 8x10&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Tidal Flats at Low Water</h3>
+      <div class="m">Oil on Linen Panel · 8x10&quot;</div>
+      <div class="price">$1,450</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-tidal-flats-at-low-water"
+        data-item-price="1450.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Linen Panel &middot; 8x10&quot;"
+        data-item-image="assets/alaska-landscape-painting-tidal-flats-at-low-water.jpg"
+        data-item-name="Tidal Flats at Low Water">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Winter" data-index="18">
+      <div class="frame" onclick="openLightbox(18)"><img src="assets/alaska-landscape-painting-spruce-snow.jpg" alt="Spruce &amp; Snow — Alaska landscape watercolor, 18x24&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Spruce &amp; Snow</h3>
+      <div class="m">Watercolor · 18x24&quot;</div>
+      <div class="price">$1,650</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-spruce-snow"
+        data-item-price="1650.0"
+        data-item-url="/gallery.html"
+        data-item-description="Watercolor &middot; 18x24&quot;"
+        data-item-image="assets/alaska-landscape-painting-spruce-snow.jpg"
+        data-item-name="Spruce &amp; Snow">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Woodland" data-index="19">
+      <div class="frame" onclick="openLightbox(19)"><img src="assets/alaska-landscape-painting-fireweed-slope.jpg" alt="Fireweed Slope — Alaska landscape oil on panel, 14x18&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Fireweed Slope</h3>
+      <div class="m">Oil on Panel · 14x18&quot;</div>
+      <div class="price">$1,800</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-fireweed-slope"
+        data-item-price="1800.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Panel &middot; 14x18&quot;"
+        data-item-image="assets/alaska-landscape-painting-fireweed-slope.jpg"
+        data-item-name="Fireweed Slope">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Mountains" data-index="20">
+      <div class="frame" onclick="openLightbox(20)"><img src="assets/alaska-landscape-painting-susitna-overlook.jpg" alt="Susitna Overlook — Alaska landscape oil on canvas, 9x12&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Susitna Overlook</h3>
+      <div class="m">Oil on Canvas · 9x12&quot;</div>
+      <div class="price">$2,100</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-susitna-overlook"
+        data-item-price="2100.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Canvas &middot; 9x12&quot;"
+        data-item-image="assets/alaska-landscape-painting-susitna-overlook.jpg"
+        data-item-name="Susitna Overlook">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Coastal" data-index="21">
+      <div class="frame" onclick="openLightbox(21)"><img src="assets/alaska-landscape-painting-anchor-river-bend.jpg" alt="Anchor River Bend — Alaska landscape oil on linen panel, 11x14&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Anchor River Bend</h3>
+      <div class="m">Oil on Linen Panel · 11x14&quot;</div>
+      <div class="price">$2,400</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-anchor-river-bend"
+        data-item-price="2400.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Linen Panel &middot; 11x14&quot;"
+        data-item-image="assets/alaska-landscape-painting-anchor-river-bend.jpg"
+        data-item-name="Anchor River Bend">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Winter" data-index="22">
+      <div class="frame" onclick="openLightbox(22)"><img src="assets/alaska-landscape-painting-diamond-ridge-light.jpg" alt="Diamond Ridge Light — Alaska landscape watercolor, 12x16&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Diamond Ridge Light</h3>
+      <div class="m">Watercolor · 12x16&quot;</div>
+      <div class="price">$650</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-diamond-ridge-light"
+        data-item-price="650.0"
+        data-item-url="/gallery.html"
+        data-item-description="Watercolor &middot; 12x16&quot;"
+        data-item-image="assets/alaska-landscape-painting-diamond-ridge-light.jpg"
+        data-item-name="Diamond Ridge Light">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Woodland" data-index="23">
+      <div class="frame" onclick="openLightbox(23)"><img src="assets/alaska-landscape-painting-northern-timberline.jpg" alt="Northern Timberline — Alaska landscape oil on panel, 16x20&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Northern Timberline</h3>
+      <div class="m">Oil on Panel · 16x20&quot;</div>
+      <div class="price">$780</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-northern-timberline"
+        data-item-price="780.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Panel &middot; 16x20&quot;"
+        data-item-image="assets/alaska-landscape-painting-northern-timberline.jpg"
+        data-item-name="Northern Timberline">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Mountains" data-index="24">
+      <div class="frame" onclick="openLightbox(24)"><img src="assets/alaska-landscape-painting-copper-river-delta.jpg" alt="Copper River Delta — Alaska landscape oil on canvas, 8x10&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Copper River Delta</h3>
+      <div class="m">Oil on Canvas · 8x10&quot;</div>
+      <div class="price">$950</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-copper-river-delta"
+        data-item-price="950.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Canvas &middot; 8x10&quot;"
+        data-item-image="assets/alaska-landscape-painting-copper-river-delta.jpg"
+        data-item-name="Copper River Delta">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Coastal" data-index="25">
+      <div class="frame" onclick="openLightbox(25)"><img src="assets/alaska-landscape-painting-skilak-lake-shore.jpg" alt="Skilak Lake Shore — Alaska landscape oil on linen panel, 18x24&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Skilak Lake Shore</h3>
+      <div class="m">Oil on Linen Panel · 18x24&quot;</div>
+      <div class="price">$1,100</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-skilak-lake-shore"
+        data-item-price="1100.0"
+        data-item-url="/gallery.html"
+        data-item-description="Oil on Linen Panel &middot; 18x24&quot;"
+        data-item-image="assets/alaska-landscape-painting-skilak-lake-shore.jpg"
+        data-item-name="Skilak Lake Shore">
+        Add to Cart
+      </button>
+    </div>
+    <div class="g-card" data-category="Winter" data-index="26">
+      <div class="frame" onclick="openLightbox(26)"><img src="assets/alaska-landscape-painting-lowell-point.jpg" alt="Lowell Point — Alaska landscape watercolor, 14x18&quot;" loading="lazy"><div class="zoom-hint"><span>View Larger</span></div></div>
+      <h3>Lowell Point</h3>
+      <div class="m">Watercolor · 14x18&quot;</div>
+      <div class="price">$1,250</div>
+      <button class="g-buy-btn snipcart-add-item"
+        data-item-id="alaska-landscape-painting-lowell-point"
+        data-item-price="1250.0"
+        data-item-url="/gallery.html"
+        data-item-description="Watercolor &middot; 14x18&quot;"
+        data-item-image="assets/alaska-landscape-painting-lowell-point.jpg"
+        data-item-name="Lowell Point">
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="placeholder-note">
+  <p>Titles, mediums, dimensions, and prices are editable — open <a href="editor.html">editor.html</a> to update any painting's details, then send the updated file back so it can be rebuilt into the live page (checkout security requires prices to be baked into the page, not loaded live). Renaming a title? Mention it and the image filename will be regenerated to match for SEO.</p>
+</div>
+
+<section class="signup-section">
+  <div class="signup-inner">
+    <span class="label">Stay in the loop</span>
+    <h2>Hear about new work first.</h2>
+    <p>New paintings, workshops, and plein air trips — occasional emails, no spam.</p>
+    <form class="signup-form">
+      <input type="email" placeholder="your@email.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer" id="footer">
+  <div class="footer-top">
+    <div class="footer-brand">Cade Bennett.</div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <span class="label">Shop</span>
+        <a href="gallery.html">Originals</a>
+        <a href="#">Prints</a>
+      </div>
+      <div class="footer-col">
+        <span class="label">Learn</span>
+        <a href="workshops.html">Workshops</a>
+        <a href="#">Zoom Classes</a>
+      </div>
+      <div class="footer-col">
+        <span class="label">Connect</span>
+        <a href="mailto:cade@cadebennett.art">cade@cadebennett.art</a>
+        <a href="tel:9077485922">(907) 748-5922</a>
+        <a href="#">@cade_painting_alaska</a>
+      </div>
+      <div class="footer-col">
+        <span class="label">Commission</span>
+        <a href="#">Request a Custom Piece</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Cade Bennett Art · cadebennett.art</span>
+    <span>Alaska, USA</span>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">&#8249;</button>
+  <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">&#8250;</button>
+  <div class="lightbox-inner">
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption">
+      <h3 id="lightbox-title"></h3>
+      <div class="m" id="lightbox-meta"></div>
+      <div class="price" id="lightbox-price"></div>
+      <button class="g-buy-btn snipcart-add-item" id="lightbox-buy-btn"
+        data-item-id="" data-item-price="" data-item-url="/gallery.html"
+        data-item-description="" data-item-image="" data-item-name="">
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const galleryItems = [{"file": "alaska-landscape-painting-turnagain-light.jpg", "title": "Turnagain Light", "medium": "Oil on Canvas", "size": "9x12\"", "price": "$650", "category": "Mountains", "price_num": 650.0, "id": "alaska-landscape-painting-turnagain-light"}, {"file": "alaska-landscape-painting-cook-inlet-morning.jpg", "title": "Cook Inlet Morning", "medium": "Oil on Linen Panel", "size": "11x14\"", "price": "$780", "category": "Coastal", "price_num": 780.0, "id": "alaska-landscape-painting-cook-inlet-morning"}, {"file": "alaska-landscape-painting-chugach-ridge.jpg", "title": "Chugach Ridge", "medium": "Watercolor", "size": "12x16\"", "price": "$950", "category": "Winter", "price_num": 950.0, "id": "alaska-landscape-painting-chugach-ridge"}, {"file": "alaska-landscape-painting-kenai-overlook.jpg", "title": "Kenai Overlook", "medium": "Oil on Panel", "size": "16x20\"", "price": "$1,100", "category": "Woodland", "price_num": 1100.0, "id": "alaska-landscape-painting-kenai-overlook"}, {"file": "alaska-landscape-painting-denali-haze.jpg", "title": "Denali Haze", "medium": "Oil on Canvas", "size": "8x10\"", "price": "$1,250", "category": "Mountains", "price_num": 1250.0, "id": "alaska-landscape-painting-denali-haze"}, {"file": "alaska-landscape-painting-matanuska-frost.jpg", "title": "Matanuska Frost", "medium": "Oil on Linen Panel", "size": "18x24\"", "price": "$1,450", "category": "Coastal", "price_num": 1450.0, "id": "alaska-landscape-painting-matanuska-frost"}, {"file": "alaska-landscape-painting-portage-stillness.jpg", "title": "Portage Stillness", "medium": "Watercolor", "size": "14x18\"", "price": "$1,650", "category": "Winter", "price_num": 1650.0, "id": "alaska-landscape-painting-portage-stillness"}, {"file": "alaska-landscape-painting-resurrection-bay.jpg", "title": "Resurrection Bay", "medium": "Oil on Panel", "size": "9x12\"", "price": "$1,800", "category": "Woodland", "price_num": 1800.0, "id": "alaska-landscape-painting-resurrection-bay"}, {"file": "alaska-landscape-painting-eklutna-gold.jpg", "title": "Eklutna Gold", "medium": "Oil on Canvas", "size": "11x14\"", "price": "$2,100", "category": "Mountains", "price_num": 2100.0, "id": "alaska-landscape-painting-eklutna-gold"}, {"file": "alaska-landscape-painting-homer-spit-dusk.jpg", "title": "Homer Spit Dusk", "medium": "Oil on Linen Panel", "size": "12x16\"", "price": "$2,400", "category": "Coastal", "price_num": 2400.0, "id": "alaska-landscape-painting-homer-spit-dusk"}, {"file": "alaska-landscape-painting-talkeetna-birches.jpg", "title": "Talkeetna Birches", "medium": "Watercolor", "size": "16x20\"", "price": "$650", "category": "Winter", "price_num": 650.0, "id": "alaska-landscape-painting-talkeetna-birches"}, {"file": "alaska-landscape-painting-turnagain-arm-tide.jpg", "title": "Turnagain Arm Tide", "medium": "Watercolor", "size": "9x12\"", "price": "$1,250", "category": "Winter", "price_num": 1250.0, "id": "alaska-landscape-painting-turnagain-arm-tide"}, {"file": "alaska-landscape-painting-palmer-hayflats.jpg", "title": "Palmer Hayflats", "medium": "Oil on Panel", "size": "18x24\"", "price": "$2,400", "category": "Woodland", "price_num": 2400.0, "id": "alaska-landscape-painting-palmer-hayflats"}, {"file": "alaska-landscape-painting-eagle-river-valley.jpg", "title": "Eagle River Valley", "medium": "Oil on Linen Panel", "size": "9x12\"", "price": "$780", "category": "Coastal", "price_num": 780.0, "id": "alaska-landscape-painting-eagle-river-valley"}, {"file": "alaska-landscape-painting-kachemak-bay.jpg", "title": "Kachemak Bay", "medium": "Watercolor", "size": "11x14\"", "price": "$950", "category": "Winter", "price_num": 950.0, "id": "alaska-landscape-painting-kachemak-bay"}, {"file": "alaska-landscape-painting-winter-birch-grove.jpg", "title": "Winter Birch Grove", "medium": "Oil on Panel", "size": "12x16\"", "price": "$1,100", "category": "Woodland", "price_num": 1100.0, "id": "alaska-landscape-painting-winter-birch-grove"}, {"file": "alaska-landscape-painting-alpenglow-chugach.jpg", "title": "Alpenglow, Chugach", "medium": "Oil on Canvas", "size": "16x20\"", "price": "$1,250", "category": "Mountains", "price_num": 1250.0, "id": "alaska-landscape-painting-alpenglow-chugach"}, {"file": "alaska-landscape-painting-tidal-flats-at-low-water.jpg", "title": "Tidal Flats at Low Water", "medium": "Oil on Linen Panel", "size": "8x10\"", "price": "$1,450", "category": "Coastal", "price_num": 1450.0, "id": "alaska-landscape-painting-tidal-flats-at-low-water"}, {"file": "alaska-landscape-painting-spruce-snow.jpg", "title": "Spruce & Snow", "medium": "Watercolor", "size": "18x24\"", "price": "$1,650", "category": "Winter", "price_num": 1650.0, "id": "alaska-landscape-painting-spruce-snow"}, {"file": "alaska-landscape-painting-fireweed-slope.jpg", "title": "Fireweed Slope", "medium": "Oil on Panel", "size": "14x18\"", "price": "$1,800", "category": "Woodland", "price_num": 1800.0, "id": "alaska-landscape-painting-fireweed-slope"}, {"file": "alaska-landscape-painting-susitna-overlook.jpg", "title": "Susitna Overlook", "medium": "Oil on Canvas", "size": "9x12\"", "price": "$2,100", "category": "Mountains", "price_num": 2100.0, "id": "alaska-landscape-painting-susitna-overlook"}, {"file": "alaska-landscape-painting-anchor-river-bend.jpg", "title": "Anchor River Bend", "medium": "Oil on Linen Panel", "size": "11x14\"", "price": "$2,400", "category": "Coastal", "price_num": 2400.0, "id": "alaska-landscape-painting-anchor-river-bend"}, {"file": "alaska-landscape-painting-diamond-ridge-light.jpg", "title": "Diamond Ridge Light", "medium": "Watercolor", "size": "12x16\"", "price": "$650", "category": "Winter", "price_num": 650.0, "id": "alaska-landscape-painting-diamond-ridge-light"}, {"file": "alaska-landscape-painting-northern-timberline.jpg", "title": "Northern Timberline", "medium": "Oil on Panel", "size": "16x20\"", "price": "$780", "category": "Woodland", "price_num": 780.0, "id": "alaska-landscape-painting-northern-timberline"}, {"file": "alaska-landscape-painting-copper-river-delta.jpg", "title": "Copper River Delta", "medium": "Oil on Canvas", "size": "8x10\"", "price": "$950", "category": "Mountains", "price_num": 950.0, "id": "alaska-landscape-painting-copper-river-delta"}, {"file": "alaska-landscape-painting-skilak-lake-shore.jpg", "title": "Skilak Lake Shore", "medium": "Oil on Linen Panel", "size": "18x24\"", "price": "$1,100", "category": "Coastal", "price_num": 1100.0, "id": "alaska-landscape-painting-skilak-lake-shore"}, {"file": "alaska-landscape-painting-lowell-point.jpg", "title": "Lowell Point", "medium": "Watercolor", "size": "14x18\"", "price": "$1,250", "category": "Winter", "price_num": 1250.0, "id": "alaska-landscape-painting-lowell-point"}];
+</script>
+<script>
+  const siteNav = document.getElementById('site-nav');
+  window.addEventListener('scroll', () => {
+    siteNav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+</script>
+<script>
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburgerBtn.addEventListener('click', () => {
+    hamburgerBtn.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburgerBtn.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+</script>
+<script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.g-card');
+  const filterCount = document.getElementById('filter-count');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      let shown = 0;
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !match);
+        if (match) shown++;
+      });
+      filterCount.textContent = `Showing ${shown} of 27 originals`;
+    });
+  });
+
+  let currentIndex = 0;
+  const lightbox = document.getElementById('lightbox');
+  function openLightbox(idx) {
+    currentIndex = idx;
+    renderLightbox();
+    lightbox.classList.add('open');
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+  }
+  function navLightbox(dir) {
+    currentIndex = (currentIndex + dir + galleryItems.length) % galleryItems.length;
+    renderLightbox();
+  }
+  function renderLightbox() {
+    const item = galleryItems[currentIndex];
+    document.getElementById('lightbox-img').src = 'assets/' + item.file;
+    document.getElementById('lightbox-img').alt = item.title;
+    document.getElementById('lightbox-title').textContent = item.title;
+    document.getElementById('lightbox-meta').textContent = item.medium + ' · ' + item.size;
+    document.getElementById('lightbox-price').textContent = item.price;
+    const btn = document.getElementById('lightbox-buy-btn');
+    btn.setAttribute('data-item-id', item.id);
+    btn.setAttribute('data-item-price', item.price_num);
+    btn.setAttribute('data-item-description', item.medium + ' \u00b7 ' + item.size);
+    btn.setAttribute('data-item-image', 'assets/' + item.file);
+    btn.setAttribute('data-item-name', item.title);
+    btn.textContent = 'Add to Cart';
+    btn.disabled = false;
+  }
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navLightbox(-1);
+    if (e.key === 'ArrowRight') navLightbox(1);
+  });
+</script>
+
+<script>
+  window.SnipcartSettings = {
+    publicApiKey: "MGQ3OGVmMjQtMzk5MC00NTMwLThkNmYtOWE5MTRiMTI3NzZkNjM5MjI4NTMwNzMzMTIyMjk2",
+    loadStrategy: "on-user-interaction",
+    modalStyle: "side",
+    addProductBehavior: "none",
+  };
+  (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('src[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){!y||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
+</script>
+
+
+<script>
+  document.addEventListener('snipcart.ready', function() {
+    Snipcart.events.on('cart.opened', () => document.body.classList.add('cart-open'));
+    Snipcart.events.on('cart.closed', () => document.body.classList.remove('cart-open'));
+  });
+</script>
+
+<script>
+  document.querySelectorAll('.snipcart-add-item').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const original = this.textContent.trim();
+      this.textContent = 'Added to Cart';
+      this.disabled = true;
+      setTimeout(() => {
+        this.textContent = original;
+        this.disabled = false;
+      }, 2000);
+    });
+  });
+</script>
+</body>
+</html>
